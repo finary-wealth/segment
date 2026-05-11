@@ -71,10 +71,7 @@ impl Client for HttpClient {
         }
 
         if let Err(err) = response.and_then(|rsp| rsp.error_for_status()) {
-            tracing::error!(
-                err = &err as &(dyn std::error::Error + 'static),
-                "segment http request failed"
-            );
+            tracing::error!(error = ?err, "segment http request failed");
             Err(err.into())
         } else {
             Ok(())
